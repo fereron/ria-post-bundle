@@ -7,7 +7,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class StoryTranslationCommand
 {
-
     /**
      * @var string
      * @Assert\NotBlank()
@@ -23,6 +22,12 @@ class StoryTranslationCommand
      * @Assert\Length(max=255)
      */
     public string $slug;
+
+    /**
+     * @var string
+     * @Assert\Type("string")
+     */
+    public string $description;
 
     /**
      * @var string

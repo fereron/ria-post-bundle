@@ -14,6 +14,12 @@ class CreateStoryCommand
     public bool $status;
 
     /**
+     * @var bool
+     * @Assert\Type("boolean")
+     */
+    public bool $showOnSite;
+
+    /**
      * @var array StoryTranslationCommand
      */
     public array $translations;
@@ -24,10 +30,6 @@ class CreateStoryCommand
 
         foreach ($locales as $locale) {
             $translations[$locale] = new StoryTranslationCommand($locale);
-
-//            $translations[$languageCode] = $story
-//                ? TranslationForm::create($story->getTranslation($languageCode))
-//                : TranslationForm::create(null, ['language' => $languageCode]);
         }
 
         $this->translations = $translations;

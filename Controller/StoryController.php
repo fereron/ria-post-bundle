@@ -5,8 +5,8 @@ namespace Ria\Bundle\PostBundle\Controller;
 
 use Doctrine\ORM\QueryBuilder;
 use League\Tactician\CommandBus;
-use Ria\Bundle\PostBundle\Command\Story\StoryCreateCommand;
-use Ria\Bundle\PostBundle\Form\Story\Type\StoryType;
+use Ria\Bundle\PostBundle\Command\Story\CreateStoryCommand;
+use Ria\Bundle\PostBundle\Form\Type\Story\StoryType;
 use Ria\Bundle\PostBundle\Repository\StoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -18,22 +18,24 @@ class StoryController extends AbstractController
 {
     // todo manageStories permission
 
-    private StoryRepository $storyRepository;
-    private ParameterBagInterface $parameterBag;
-    private CommandBus $bus;
-
-    public function __construct(StoryRepository $storyRepository, CommandBus $bus, ParameterBagInterface $parameterBag)
+    public function __construct(
+        private StoryRepository $storyRepository,
+        private CommandBus $bus,
+        private ParameterBagInterface $parameterBag)
     {
         $this->storyRepository = $storyRepository;
-        $this->parameterBag = $parameterBag;
-        $this->bus = $bus;
+//        $this->parameterBag = $parameterBag;
+//        $this->bus = $bus;
     }
 
-    /**
-     * @Route("posts/stories", methods={"GET"}, name="post.stories.index")
-     */
+//
+//    /**
+//     * @Route("posts/stories", methods={"GET"}, name="post.stories.index")
+//     */
+    #[Route('posts/stories', name: "post.stories.index")]
     public function index(): Response
     {
+        dd('asd');
         $stories = $this->storyRepository
             ->createQueryBuilder('s')
             ->select('s')
@@ -58,11 +60,9 @@ class StoryController extends AbstractController
      */
     public function create(Request $request): Response
     {
-        $command = new StoryCreateCommand($this->parameterBag->get('app.supported_locales'));
+        $command = new CreateStoryCommand($this->parameterBag->get('app.supported_locales'));
 
         $form = $this->createForm(StoryType::class, $command);
-
-//        dd($form);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Ria\Bundle\PostBundle\Form\Story\Type;
+namespace Ria\Bundle\PostBundle\Form\Type\Story;
 
-use Doctrine\DBAL\Types\BooleanType;
-use Ria\Bundle\PostBundle\Command\Story\StoryCreateCommand;
-use Ria\Bundle\PostBundle\Form\Type\Story\StoryTranslationType;
+use Ria\Bundle\PostBundle\Command\Story\CreateStoryCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -20,6 +18,7 @@ class StoryType extends AbstractType
     {
         $builder
             ->add('status', CheckboxType::class)
+            ->add('showOnSite', CheckboxType::class)
             ->add('submit', SubmitType::class)
         ;
 
@@ -32,7 +31,7 @@ class StoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => StoryCreateCommand::class,
+            'data_class' => CreateStoryCommand::class,
         ]);
     }
 

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Ria\Bundle\PostBundle\Form\Type\Story;
 
+use Ria\Bundle\AdminBundle\Form\Type\MetaType;
 use Ria\Bundle\PostBundle\Command\Story\StoryTranslationCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,6 +19,7 @@ class StoryTranslationType extends AbstractType
             ->add('title', TextType::class)
             ->add('slug', TextType::class)
             ->add('locale', TextType::class)
+            ->add('meta', MetaType::class)
         ;
     }
 
