@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('posts/stories', name: 'stories.')]
 class StoryController extends AbstractController
 {
     // todo manageStories permission
@@ -22,20 +23,11 @@ class StoryController extends AbstractController
         private StoryRepository $storyRepository,
         private CommandBus $bus,
         private ParameterBagInterface $parameterBag)
-    {
-        $this->storyRepository = $storyRepository;
-//        $this->parameterBag = $parameterBag;
-//        $this->bus = $bus;
-    }
+    {}
 
-//
-//    /**
-//     * @Route("posts/stories", methods={"GET"}, name="post.stories.index")
-//     */
-    #[Route('posts/stories', name: "post.stories.index")]
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(): Response
     {
-        dd('asd');
         $stories = $this->storyRepository
             ->createQueryBuilder('s')
             ->select('s')
@@ -44,20 +36,10 @@ class StoryController extends AbstractController
             ->getQuery()
             ->getResult();
 
-//        /** @var StoriesRepository $repository */
-//        $repository   = $this->entityManager->getRepository(Story::class);
-//        $searchModel  = new StorySearch($this->storyRepository);
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('@RiaPost/stories/index.html.twig');
     }
 
-    /**
-     * @Route("posts/stories/create", methods={"GET", "POST"}, name="post.stories.create")
-     *
-     * @param Request $request
-     * @return Response
-     */
+    #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
         $command = new CreateStoryCommand($this->parameterBag->get('app.supported_locales'));
